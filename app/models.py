@@ -1,15 +1,11 @@
 from sqlalchemy import DateTime, String, ForeignKey
-from sqlalchemy.orm import Mapped, declarative_base, mapped_column, relationship
-import enum
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from datetime import datetime
 from typing import List, Optional
+from app.database import Base
 
-Base = declarative_base()
 
-class UserRole(str,enum.Enum):
-    MEMBER = "member"
-    ADMIN = "admin"
-    MANAGER = "manager"
 
 class User(Base):   # this class represents a table in the database
     __tablename__ = "user"     # name of the table in the database
@@ -18,12 +14,9 @@ class User(Base):   # this class represents a table in the database
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(String(100), unique=True)
     hashed_password: Mapped[str] = mapped_column(String(100),nullable=True)
-    is_active: Mapped[bool] = mapped_column(default=True)
-    role: Mapped[str] = mapped_column(String(50), default=UserRole.MEMBER.value)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
 
     # relationship to the Task model
-    tasks: Mapped[List["Task"]] = relationship(back_populates="owner", cascade="all, delete-orphan")
+    task: Mapped[List["Task"]] = relationship(back_populates="owner", cascade="all, delete-orphan")
 
 
 class Task(Base):

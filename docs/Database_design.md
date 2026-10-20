@@ -12,9 +12,6 @@ direction LR
         int id PK
         string email UK
         string hashed_password
-        boolean is_active
-        string role
-        datetime created_at
     }
     TASKS {
         int id PK
@@ -41,9 +38,7 @@ Stores user credentials, access states, and security permissions.
 | `id` | SERIAL | Primary Key, Indexed | *None* | Unique auto-incrementing identifier. |
 | `email` | VARCHAR(255) | Unique, Indexed, NOT NULL | *None* | User email used as the account identifier. |
 | `hashed_password`| VARCHAR(255) | Nullable | NULL | Bcrypt hashed string. Nullable for Google Auth compatibility. |
-| `is_active` | BOOLEAN | NOT NULL | `true` | Standard active state flag. |
-| `role` | VARCHAR(50) | NOT NULL | `'member'` | Assigned RBAC tier (`admin`, `manager`, `member`). |
-| `created_at` | TIMESTAMP | NOT NULL | `CURRENT_TIMESTAMP` | Account creation timestamp. |
+
 
 
 ### B. `tasks` Table
