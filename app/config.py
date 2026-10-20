@@ -1,14 +1,18 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field
+
 
 class Settings(BaseSettings):
-    # CRITICAL IDENTITY: No defaults provided. If missing from .env, the app crashes safely.
+    
     DB_USER: str
     DB_PASSWORD: str
     DB_NAME: str
     
     DB_HOST: str = "db"
     DB_PORT: int = 5432
+
+    JWT_SECRET: str
+    JWT_ALGORITHM: str 
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
 
     @property
     def DATABASE_URL(self) -> str:
