@@ -13,7 +13,7 @@ from app.schemas import UserCreate, UserResponse, TaskResponse, TaskCreate, Task
 
 from passlib.context import CryptContext  # Pure Passlib library
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-import os
+
 from app.config import settings
 
 # hashing passwords using bcrypt algo so they are safe in storage - db security
@@ -22,10 +22,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 # Token settings for JWT (JSON Web Token) authentication
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login") # tells FastAPI where to look for authentication credentials - network security
 
-""" JWT_SECRET = os.getenv("JWT_SECRET") #"572593889b4d58e3077e1cba024fd540f37aa6f3b0106af0b3fce9b9d2628a93" #using cmd:  openssl rand -hex 32
-JWT_ALGORITHM = os.getenv("JWT_ALGORITHM")
-ACCESS_TOKEN_EXPIRE_MINUTES =os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
- """
+
 # Intercepts requests, decodes the JWT token and returns the current user object
 # Instead of passing owner_id as a query parameter, the backend will parse the token header recieved with the request, to find who is logged in, and return the user 
  
@@ -125,7 +122,7 @@ def create_task(task_in: TaskCreate, current_user: User = Depends(get_current_us
 
 @app.get("/tasks/", response_model=List[TaskResponse])
 def get_all_tasks(page: int = 1, size: int = 10, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
-    #Fetches a paginated slice of tasks belonging strictly to the logged-in user account.
+    #Fetches a paginated slice of tasks belonging to the logged-in user .
     if page < 1:
         page = 1
     offset_value = (page - 1) * size
@@ -151,7 +148,7 @@ def update_task(task_id: int, task_in: TaskUpdate, current_user: User = Depends(
     
     # Extract only the fields explicitly sent by the user in the request body
     update_data = task_in.model_dump(exclude_unset=True)
-    
+
     for key, value in update_data.items():
         setattr(task, key, value)
     
