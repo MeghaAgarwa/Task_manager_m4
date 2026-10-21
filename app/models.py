@@ -1,4 +1,4 @@
-from sqlalchemy import DateTime, String, ForeignKey
+from sqlalchemy import DateTime, String, ForeignKey, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from datetime import datetime
@@ -25,7 +25,7 @@ class Task(Base):
     title: Mapped[str] = mapped_column(String(255))
     description: Mapped[Optional[str]] = mapped_column(String(255))
     is_completed: Mapped[bool] = mapped_column(default=False)
-    priority: Mapped[str] = mapped_column(String(20), default="medium")
+    priority: Mapped[str] = mapped_column(Enum('low','medium','high',name='priority_enum'), default="medium")
     due_date: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
 

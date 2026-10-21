@@ -22,11 +22,11 @@ class UserResponse(UserBase):
 class TaskBase(BaseModel):
     title: str = Field(..., min_length=1, max_length=255)
     description: Optional[str] = None
-    priority: str = Field(default="medium", description="Must be low, medium, or high")
+    priority: Optional[Literal["low", "medium", "high"]] = Field(default="medium", description="Must be low, medium, or high")
     due_date: Optional[datetime] = None
 
 class TaskCreate(TaskBase):
-        pass
+    pass
 
 class TaskResponse(TaskBase):
     id: int
@@ -36,13 +36,15 @@ class TaskResponse(TaskBase):
 
     model_config = ConfigDict(from_attributes = True)
 
+
+  
 class TaskUpdate(BaseModel):
-    title: Optional[str] = Field(None, min_length=1, max_length=255)
-    description: Optional[str] = None
-    is_completed: Optional[bool] = None
-    
-    priority: Optional[Literal["low", "medium", "high"]] = Field(None, description="Task urgency")
-    due_date: Optional[datetime] = None
+    title: Optional[str] = Field(default=None, min_length=1, max_length=255)
+    description: Optional[str] =None
+    priority: Optional[Literal["low", "medium", "high"]] = Field(default=None,description="Must be low, medium, or high")
+    due_date: Optional[datetime] =None
+    is_completed: Optional[bool] =None
+
 
 class TaskDeleteResponse(TaskResponse):
      detail: str = "Task deleted."
