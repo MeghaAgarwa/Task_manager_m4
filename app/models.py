@@ -14,9 +14,14 @@ class User(Base):   # this class represents a table in the database
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(String(100), unique=True)
     hashed_password: Mapped[str] = mapped_column(String(100),nullable=True)
-
+    role : Mapped[str] = mapped_column(Enum('user','admin',name='role_enum'), default="user")
+    
     # relationship to the Task model
     task: Mapped[List["Task"]] = relationship(back_populates="owner", cascade="all, delete-orphan")
+    
+    google_id = mapped_column(String,unique=True,nullable=True,index=True,)
+    
+
 
 
 class Task(Base):

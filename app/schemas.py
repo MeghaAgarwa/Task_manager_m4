@@ -13,7 +13,7 @@ class UserCreate(UserBase):
 
 class UserResponse(UserBase):
     id: int
-
+    role: Optional[Literal["user", "admin"]] = Field(default="user")
     model_config = ConfigDict(from_attributes = True)
 
 
@@ -33,7 +33,7 @@ class TaskResponse(TaskBase):
     is_completed: bool
     created_at: datetime
     owner_id: int
-
+  
     model_config = ConfigDict(from_attributes = True)
 
 
@@ -54,3 +54,11 @@ class Token(BaseModel):
     token_type: str
   
 
+# Users list for admin
+
+class AllUserTasks(BaseModel):
+    user_id:int
+    id: int
+    title: str
+    is_completed: bool
+    owner_id: int
