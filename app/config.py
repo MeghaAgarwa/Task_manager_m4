@@ -14,6 +14,12 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str 
     ACCESS_TOKEN_EXPIRE_MINUTES: int
 
+    GOOGLE_CLIENT_ID: str
+    GOOGLE_CLIENT_SECRET: str
+    GOOGLE_REDIRECT_URI: str = ("http://localhost:8000/auth/google/callback")
+    SESSION_SECRET: str
+
+
     @property
     def DATABASE_URL(self) -> str:
         return f"postgresql+psycopg2://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"

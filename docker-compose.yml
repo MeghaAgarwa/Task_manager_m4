@@ -28,6 +28,7 @@ services:
     depends_on:
       db:   # Added to ensure the web service waits for the database to be ready
         condition: service_healthy
-    
+    volumes:
+      - .:/app
 volumes:
   db_data:
